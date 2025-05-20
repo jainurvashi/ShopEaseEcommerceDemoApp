@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 class ProductViewModel : ViewModel() {
     private val _productList = MutableStateFlow<List<ProductModel>>(emptyList())
     val product: StateFlow<List<ProductModel>> = _productList
+    private val _categoryList = MutableStateFlow<List<String>>(emptyList())
+    val categoryList : StateFlow<List<String>> = _categoryList
     init {
         fetchProduct()
     }
@@ -24,6 +26,16 @@ class ProductViewModel : ViewModel() {
                 e.printStackTrace()
             }
 
+        }
+    }
+    fun getCategories(){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.getCategories()
+                _categoryList.value = response
+            }catch (ex: Exception){
+                ex.printStackTrace()
+            }
         }
     }
 }
