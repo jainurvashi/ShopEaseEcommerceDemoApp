@@ -1,6 +1,6 @@
 
 # 🛍️ ShopEase - E-commerce Demo App
-![Home Screen](https://github.com/user-attachments/assets/2a2d6a46-1eee-41f9-9188-e39bc77e979a)
+[Home Screen!(Screenshot_product.png)
 A modern mock E-commerce Android app built using **Kotlin**, **Jetpack Compose**, **Retrofit**, and**Navigation Component**. ShopEase demonstrates core features of a shopping app such as product listing, product details, cart management, and checkout—powered by a mock API.
 
 ##  Features
