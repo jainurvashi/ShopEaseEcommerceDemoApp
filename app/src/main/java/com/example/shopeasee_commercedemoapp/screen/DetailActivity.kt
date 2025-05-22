@@ -5,17 +5,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -41,7 +45,10 @@ import com.example.shopeasee_commercedemoapp.data.model.ProductModel
 import com.example.shopeasee_commercedemoapp.ui.theme.ShopEaseEcommerceDemoAppTheme
 import com.example.shopeasee_commercedemoapp.viewModels.DetailedViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.shopeasee_commercedemoapp.data.model.Rating
 
 class DetailActivity : ComponentActivity() {
@@ -95,44 +102,41 @@ class DetailActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(modifier: Modifier = Modifier,product:ProductModel) {
+    val quantity = remember { mutableStateOf(0) }
     Column{
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
             item {
                 AsyncImage(model = product.image, contentDescription = "product Image")
             }
             item {
-                Text(
-                    text = product.title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = product.title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .weight(1f),
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                        Icon(Icons.Default.FavoriteBorder, contentDescription = "wishlist", tint = Color.Gray)
+Spacer(modifier = Modifier.padding(8.dp))
+                        Icon(Icons.Default.Share, contentDescription = "share", tint = Color.Gray)
+                }
+
             }
             item {
                 Text(
-                    text = product.category,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = TextAlign.Center,
+                    text = "₹"+product.price.toString(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(5.dp),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-            item {
-                Text(
-                    text = product.price.toString(),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp),
-                    color = Color.Green,
-                    style = MaterialTheme.typography.bodyMedium
+                    color = Color.Black,
+                    style = MaterialTheme.typography.bodyLarge,
+
                 )
             }
             item {
@@ -145,31 +149,63 @@ fun Greeting(modifier: Modifier = Modifier,product:ProductModel) {
                 )
             }
         }
+        if (quantity.value == 0) {
+            Button(
+                onClick = {
+                    quantity.value = 1
+                },
+                modifier = Modifier
+                    .height(70.dp)
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE1BEE7))
+            ) {
+                Text("Add to Cart", color = Color.Black)
+            }
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = {
+                    quantity.value -= 1
+                }) { Icon(Icons.Default.Remove, contentDescription = "remove") }
 
-        Button(onClick = {},
-            modifier = Modifier.height(70.dp).fillMaxWidth().padding(10.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE1BEE7))) { Text("Add to Cart", color = Color.Black)
+                Text(" ${quantity.value} added", modifier = Modifier.padding(5.dp))
+
+                IconButton(onClick = {
+                    quantity.value += 1
+                }) {
+                    Icon(Icons.Default.Add, contentDescription = "add")
+                }
+
+            }
         }
     }
-
-
 }
 
-@Preview(showBackground = true, widthDp = 500, heightDp = 1000)
+@Preview(showBackground = true)
 @Composable
-private fun previewww() {
-    val product = ProductModel(
+private fun ffr() {
+   val fakeProduct = ProductModel(
         id = 1,
-        title = "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-        price = 109.95,
-        description = "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-        category = "men's clothing",
+        title = "Stylish Cotton T-Shirt",
+        price = 499.99,
+        description = "Comfortable and breathable cotton t-shirt perfect for daily wear.",
+        category = "Men's Clothing",
         image = "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
         rating = Rating(
-            rate = 3.9,
-            count = 120
+            rate = 4.5,
+            count = 245
         )
     )
     Greeting(
-        product= product
+        modifier = Modifier
+            .padding(8.dp)        // Scaffold ka padding
+            .systemBarsPadding(),
+        fakeProduct
     )
 }
