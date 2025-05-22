@@ -88,3 +88,6 @@ Remove item from cart
 Show summary of cart items
 
 Fake "Place Order" button
+
+✍️ Author
+Urvashi Jain
