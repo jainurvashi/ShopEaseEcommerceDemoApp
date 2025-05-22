@@ -69,7 +69,6 @@ Search bar (optional)
 
 2. Product Detail Page
    Show product image, description, price, rating
-   [Home Screen!(Screenshot_product.png)
 
 “Add to Cart” button
 
