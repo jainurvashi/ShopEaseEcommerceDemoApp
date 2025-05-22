@@ -5,9 +5,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.shopeasee_commercedemoapp.screen.CartScreen
 import com.example.shopeasee_commercedemoapp.screen.DetailActivity
 import com.example.shopeasee_commercedemoapp.screen.ProductListScreen
+import com.example.shopeasee_commercedemoapp.screen.Scaffold
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -22,7 +22,7 @@ fun AppNavHost(navController: NavHostController) {
             DetailActivity()
         }
         composable("CartScreen") {
-            CartScreen(navController)
+            Scaffold(navController)
         }
     }
 }

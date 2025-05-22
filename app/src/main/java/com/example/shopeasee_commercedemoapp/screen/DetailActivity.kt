@@ -36,7 +36,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,8 +47,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.shopeasee_commercedemoapp.data.model.Rating
+import com.example.shopeasee_commercedemoapp.CartViewModelFactory
+import com.example.shopeasee_commercedemoapp.viewModels.CartViewModel
 
 class DetailActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -60,10 +59,11 @@ class DetailActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val viewModel: DetailedViewModel = viewModel()
+            val context = LocalContext.current
+            val cartViewModel: CartViewModel = viewModel(factory = CartViewModelFactory(context))
             LaunchedEffect(productId) {
                 viewModel.getDetail(productId)
             }
-            val context = LocalContext.current
             val product by viewModel.productDetail
             ShopEaseEcommerceDemoAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize(),
@@ -91,7 +91,8 @@ class DetailActivity : ComponentActivity() {
                              modifier = Modifier
                                  .padding(innerPadding)        // Scaffold ka padding
                                 .systemBarsPadding(),
-                            product!!
+                            product!!,
+                            cartViewModel
                         )
                     }
                 }
@@ -101,7 +102,7 @@ class DetailActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(modifier: Modifier = Modifier,product:ProductModel) {
+fun Greeting(modifier: Modifier = Modifier, product: ProductModel, cartViewModel: CartViewModel) {
     val quantity = remember { mutableStateOf(0) }
     Column{
         LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier) {
@@ -152,6 +153,7 @@ Spacer(modifier = Modifier.padding(8.dp))
         if (quantity.value == 0) {
             Button(
                 onClick = {
+                    cartViewModel.addToCart(product,quantity.value)
                     quantity.value = 1
                 },
                 modifier = Modifier
@@ -172,12 +174,14 @@ Spacer(modifier = Modifier.padding(8.dp))
             ) {
                 IconButton(onClick = {
                     quantity.value -= 1
+                    cartViewModel.addToCart(product,quantity.value)
                 }) { Icon(Icons.Default.Remove, contentDescription = "remove") }
 
                 Text(" ${quantity.value} added", modifier = Modifier.padding(5.dp))
 
                 IconButton(onClick = {
                     quantity.value += 1
+                    cartViewModel.addToCart(product,quantity.value)
                 }) {
                     Icon(Icons.Default.Add, contentDescription = "add")
                 }
@@ -185,27 +189,4 @@ Spacer(modifier = Modifier.padding(8.dp))
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ffr() {
-   val fakeProduct = ProductModel(
-        id = 1,
-        title = "Stylish Cotton T-Shirt",
-        price = 499.99,
-        description = "Comfortable and breathable cotton t-shirt perfect for daily wear.",
-        category = "Men's Clothing",
-        image = "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-        rating = Rating(
-            rate = 4.5,
-            count = 245
-        )
-    )
-    Greeting(
-        modifier = Modifier
-            .padding(8.dp)        // Scaffold ka padding
-            .systemBarsPadding(),
-        fakeProduct
-    )
 }
