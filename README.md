@@ -7,7 +7,7 @@ A modern mock E-commerce Android app built using **Kotlin**, **Jetpack Compose**
 🔗 [View Product Screenshot](Screenshot_product.png)
 🔗 [View Product Detail Screenshot](Screenshot_2product_detail.png)
 🔗 [View Empty Cart Screenshot](Screenshot_empty_cart.png)
-🔗 [Cart Screenshot](screenshots/Screenshot_cart_items.png)
+🔗 [Cart Screenshot](Screenshot_cart_items.png)
 
 ##  Features
 
