@@ -1,6 +1,12 @@
-# 🛍️ ShopEase - E-commerce Demo App
 
+# 🛍️ ShopEase - E-commerce Demo App
 A modern mock E-commerce Android app built using **Kotlin**, **Jetpack Compose**, **Retrofit**, and**Navigation Component**. ShopEase demonstrates core features of a shopping app such as product listing, product details, cart management, and checkout—powered by a mock API.
+
+### 📸 Screenshots
+
+🔗 [View Product Screenshot](Screenshot_product.png)
+🔗 [View Product Detail Screenshot](Screenshot_2product_detail.png)
+🔗 [View Empty Cart Screenshot](Screenshot_empty_cart.png)
 
 ##  Features
 
@@ -25,6 +31,9 @@ A modern mock E-commerce Android app built using **Kotlin**, **Jetpack Compose**
 - **Mock API:** [https://fakestoreapi.com](https://fakestoreapi.com)
 - **Dependency Injection** : Hilt
 - **Local Storage** : Room or DataStore (for cart persistence)
+
+Screenshot_product.png
+
 
 ## 🔧 Project Structure
 /ShopEase
